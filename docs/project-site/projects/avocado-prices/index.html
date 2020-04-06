@@ -1912,18 +1912,18 @@ Call:
 lm(formula = TotalVolume ~ type, data = avocado_cities)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--0.63362 -0.18073 -0.00193  0.16132  0.88661 
+     Min       1Q   Median       3Q      Max
+-0.63362 -0.18073 -0.00193  0.16132  0.88661
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
+            Estimate Std. Error t value Pr(&gt;|t|)
 (Intercept)  3.54827    0.04349   81.58   &lt;2e-16 ***
 typeorganic -1.16570    0.06151  -18.95   &lt;2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.2918 on 88 degrees of freedom
-Multiple R-squared:  0.8032,    Adjusted R-squared:  0.801 
+Multiple R-squared:  0.8032,    Adjusted R-squared:  0.801
 F-statistic: 359.2 on 1 and 88 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
@@ -1942,11 +1942,11 @@ Call:
 lm(formula = TotalVolume ~ type + `4046` + `4225`, data = avocado_cities)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--0.61637 -0.13759  0.00059  0.10960  0.76463 
+     Min       1Q   Median       3Q      Max
+-0.61637 -0.13759  0.00059  0.10960  0.76463
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
+            Estimate Std. Error t value Pr(&gt;|t|)
 (Intercept)  3.10296    0.10272  30.208  &lt; 2e-16 ***
 typeorganic -1.08243    0.05844 -18.524  &lt; 2e-16 ***
 `4046`       0.68522    0.15273   4.486 2.23e-05 ***
@@ -1955,7 +1955,7 @@ typeorganic -1.08243    0.05844 -18.524  &lt; 2e-16 ***
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.2628 on 86 degrees of freedom
-Multiple R-squared:  0.844, Adjusted R-squared:  0.8386 
+Multiple R-squared:  0.844, Adjusted R-squared:  0.8386
 F-statistic: 155.1 on 3 and 86 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
@@ -1966,25 +1966,25 @@ F-statistic: 155.1 on 3 and 86 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFRvdGFsVm9sdW1lIH4gdHlwZSArIGA0MDQ2YCArIGA0MjI1YCArIGA0MDQ2YDpgNDIyNWAsIFxuICAgIGRhdGEgPSBhdm9jYWRvX2NpdGllcylcblxuUmVzaWR1YWxzOlxuICAgICBNaW4gICAgICAgMVEgICBNZWRpYW4gICAgICAgM1EgICAgICBNYXggXG4tMC42MDQ3NyAtMC4xNDYwNSAtMC4wMDExMSAgMC4xMjA5MyAgMC43NjcyNiBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgICAzLjExMDY5ICAgIDAuMTA3NTQgIDI4LjkyNyAgPCAyZS0xNiAqKipcbnR5cGVvcmdhbmljICAgLTEuMDg0NTcgICAgMC4wNTkzNCAtMTguMjc5ICA8IDJlLTE2ICoqKlxuYDQwNDZgICAgICAgICAgMC42NDc4NyAgICAwLjIxMDk3ICAgMy4wNzEgIDAuMDAyODcgKiogXG5gNDIyNWAgICAgICAgICAwLjUwNTkwICAgIDAuMTUxNzkgICAzLjMzMyAgMC4wMDEyNyAqKiBcbmA0MDQ2YDpgNDIyNWAgIDAuMTU1NDMgICAgMC42MDE5NSAgIDAuMjU4ICAwLjc5Njg3ICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAwLjI2NDIgb24gODUgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjg0NDEsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjgzNjggXG5GLXN0YXRpc3RpYzogMTE1LjEgb24gNCBhbmQgODUgREYsICBwLXZhbHVlOiA8IDIuMmUtMTZcbiJ9 -->
 <pre><code>
 Call:
-lm(formula = TotalVolume ~ type + `4046` + `4225` + `4046`:`4225`, 
+lm(formula = TotalVolume ~ type + `4046` + `4225` + `4046`:`4225`,
     data = avocado_cities)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--0.60477 -0.14605 -0.00111  0.12093  0.76726 
+     Min       1Q   Median       3Q      Max
+-0.60477 -0.14605 -0.00111  0.12093  0.76726
 
 Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
+              Estimate Std. Error t value Pr(&gt;|t|)
 (Intercept)    3.11069    0.10754  28.927  &lt; 2e-16 ***
 typeorganic   -1.08457    0.05934 -18.279  &lt; 2e-16 ***
-`4046`         0.64787    0.21097   3.071  0.00287 ** 
-`4225`         0.50590    0.15179   3.333  0.00127 ** 
-`4046`:`4225`  0.15543    0.60195   0.258  0.79687    
+`4046`         0.64787    0.21097   3.071  0.00287 **
+`4225`         0.50590    0.15179   3.333  0.00127 **
+`4046`:`4225`  0.15543    0.60195   0.258  0.79687
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.2642 on 85 degrees of freedom
-Multiple R-squared:  0.8441,    Adjusted R-squared:  0.8368 
+Multiple R-squared:  0.8441,    Adjusted R-squared:  0.8368
 F-statistic: 115.1 on 4 and 85 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
@@ -2015,25 +2015,25 @@ region      2  0.102803 5.3900 -239.37</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFRvdGFsVm9sdW1lIH4gdHlwZSArIGA0MDQ2YCArIGA0MjI1YCArIEF2ZXJhZ2VQcmljZSwgXG4gICAgZGF0YSA9IGF2b2NhZG9fY2l0aWVzKVxuXG5SZXNpZHVhbHM6XG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0wLjU3NTI3IC0wLjE1MDUyIC0wLjAwMTYxICAwLjE0MDg3ICAwLjczNTIzIFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgMy40NTU3ICAgICAwLjE2NzIgIDIwLjY2OCAgPCAyZS0xNiAqKipcbnR5cGVvcmdhbmljICAgLTAuODY0MSAgICAgMC4xMDA2ICAtOC41ODkgMy42NmUtMTMgKioqXG5gNDA0NmAgICAgICAgICAwLjY0NDcgICAgIDAuMTQ4NiAgIDQuMzQwIDMuOTFlLTA1ICoqKlxuYDQyMjVgICAgICAgICAgMC41OTUwICAgICAwLjEyOTkgICA0LjU4MCAxLjU4ZS0wNSAqKipcbkF2ZXJhZ2VQcmljZSAgLTAuMzMwNiAgICAgMC4xMjYwICAtMi42MjMgICAwLjAxMDMgKiAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuMjU0MiBvbiA4NSBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuODU1NyxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuODQ4OSBcbkYtc3RhdGlzdGljOiAgIDEyNiBvbiA0IGFuZCA4NSBERiwgIHAtdmFsdWU6IDwgMi4yZS0xNlxuIn0= -->
 <pre><code>
 Call:
-lm(formula = TotalVolume ~ type + `4046` + `4225` + AveragePrice, 
+lm(formula = TotalVolume ~ type + `4046` + `4225` + AveragePrice,
     data = avocado_cities)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--0.57527 -0.15052 -0.00161  0.14087  0.73523 
+     Min       1Q   Median       3Q      Max
+-0.57527 -0.15052 -0.00161  0.14087  0.73523
 
 Coefficients:
-             Estimate Std. Error t value Pr(&gt;|t|)    
+             Estimate Std. Error t value Pr(&gt;|t|)
 (Intercept)    3.4557     0.1672  20.668  &lt; 2e-16 ***
 typeorganic   -0.8641     0.1006  -8.589 3.66e-13 ***
 `4046`         0.6447     0.1486   4.340 3.91e-05 ***
 `4225`         0.5950     0.1299   4.580 1.58e-05 ***
-AveragePrice  -0.3306     0.1260  -2.623   0.0103 *  
+AveragePrice  -0.3306     0.1260  -2.623   0.0103 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.2542 on 85 degrees of freedom
-Multiple R-squared:  0.8557,    Adjusted R-squared:  0.8489 
+Multiple R-squared:  0.8557,    Adjusted R-squared:  0.8489
 F-statistic:   126 on 4 and 85 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->

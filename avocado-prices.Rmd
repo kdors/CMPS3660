@@ -1,0 +1,277 @@
+---
+title: "Avocado Sales"
+author: "Kennedy Dorsey"
+date: "12/17/2019"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+<style type="text/css">
+
+h1.title {
+  font-size: 38px;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+</style>
+
+### Introduction
+
+Avocados are everywhere. These fruits are very versatile in the types of foods one can make with them, and they are good for overall health as well. The demand for avocados has skyrocketed in recent years. This demand, while great for avocado farmers, can also put a strain on the land. One specific type of avocado, Hass, makes up over 95% of the avocados consumed in the United States. To produce a Hass avocado requires delicate cultivation, nearly perfect climate, and mineral-rich soil. Since a lot of hard work goes into producing these avocados, and Americans seem to love them, it may be beneficial to look more closely at which types of Hass avocados people are consuming, as well as what other factors may play a role in the amount of avocados that people buy. Since avocados in good condition require a lot of time and care, paying attentiion to what factors are most important for consumers when buying avocados can lead to more efficient farming and higher returns for farmers.
+
+To learn more about Hass avocadoes, one can visit https://loveonetoday.com/how-to/identify-hass-avocados/. 
+
+To conduct the analysis, a dataset from Kaggle (found at https://www.kaggle.com/neuromusic/avocado-prices) is used. The dataset gives average Hass avocado prices per unit, as well as other information about the avocados that are sold on a weekly basis.
+
+```{r include=FALSE}
+avocado <- read.csv('avocado.csv')
+```
+
+Variables in the dataset include:
+
+- **'X1'**, is an index of the observations.
+- **'Date'** column is the date that the avocados were sold. 
+- **'AveragePrice'** is the average price of avocadoes (per avocado, not per bag) sold for the week. 
+- **'TotalVolume'** is the total number of avocados sold for the week. 
+- **'4046'**, **'4225'**, and **'4770'** list the number of avocados sold with that price lookup codes (PLU) sold for the week.
+- **'type'** lists whether the avocados are conventional or organic. 
+- **'year'** column lists the year of the observation.
+- **'region'** gives the region that the avocados were sold in.
+- **'Small.Bags'**, **'Large.Bags'**, and **'XLarge.Bags'**, lists the number of bags of their respective size that are sold.
+- **'Total.Bags'** gives the total number of small, large, and extra large bags sold.
+
+### Objectives 
+
+From this dataset, I am hoping to answer some questions such as: 
+
+- Are there any relationships between the predictor variables?
+- Is there any relationship between the response variable, the total number of avocados sold, and one or more of the predictor variables such as average price, the type of avocado (conventional or organic), the region the avocado is sold in, the proportion of avocados sold by PLU code to the total volume of avocados sold, and the proportion of avocados sold by bag size?
+- Are certain avocado sizes more closely related to the number of avocados sold?
+- How well does a linear model fit the data? 
+
+### Data Processing
+
+To begin the analysis, some data processing is needed beforehand. Since there is no missing data in this dataset, there is no need to use any methods to remove missing data. The column 'X1' is removed because it is an index column and the column 'XLarge.Bags' is removed because most of the data is 0 (There are hardly ever XLarge Bags sold or available to be sold). 
+
+```{r include=FALSE}
+drops <- c("X", "XLarge.Bags")
+avocado <- avocado[,!(names(avocado) %in% drops)]
+
+avocado$Date <- as.Date(avocado$Date)
+```
+
+Since the columns '4046', '4225', and '4770' give the number of avocados sold with that specific PLU code, and the columns more or less add up to the column 'Total Volume', proportions of the total number of avocados sold are used for columns  '4046', '4225', and '4770' instead. Given the 'Total.Bags' column, proportions are used for the bag size columns (Small, Large, and XLarge) for the same reason. 
+
+```{r include=FALSE}
+names(avocado)[names(avocado) == "Total.Volume"] <- "TotalVolume"
+names(avocado)[names(avocado) == "X4046"] <- "4046"
+names(avocado)[names(avocado) == "X4225"] <- "4225"
+names(avocado)[names(avocado) == "X4770"] <- "4770"
+
+avocado[,'4046'] <- avocado[,'4046'] / avocado[,'TotalVolume'] 
+avocado[,'4225'] <- avocado[,'4225'] / avocado[,'TotalVolume'] 
+avocado[,'4770'] <- avocado[,'4770'] / avocado[,'TotalVolume'] 
+
+avocado[,'Small.Bags'] <- avocado[,'Small.Bags'] / avocado[,'Total.Bags'] 
+avocado[,'Large.Bags'] <- avocado[,'Large.Bags'] / avocado[,'Total.Bags']
+
+avocado$type <- factor(avocado$type)
+
+```
+For this analysis, because this dataset is technically a time series, I will only look at one week's worth of data since looking at multiple weeks introduces seasonality and temporal correlation. Since we are only looking at one week during peak avocado season, a week during the summer is arbitrarily chosen for the data analysis. We can now remove the 'Date' and 'year' column. 
+
+Looking at the values for 'region' there are overlaps in the regions that are recorded. There are cities/states as well as major regions in the US and the US as a whole. In this analysis, I only focus on major regions in the US, so I divided the cities into regions "east", "west",  and "south". Since I am only looking at one week's worth of data, I want to have multiple observations per region, and grouping cities/states together enabled me to do so. To divide the regions, I stuck with the major regions in the US and grouped the Plains and the West into 'west', the Southeast and Southwest into 'south', and the Northeast into 'east'. Comparing the total volume of these regions with the total volume of the region 'TotalUS' shows that these regions are a subset of the total US, and therefore, there does not seem to be any overlap. There are 15 cities/states per region to give a total of 45 observations for conventional avocados and 45 observations for organic avocados. The processed dataset is shown below. 
+
+```{r echo=FALSE}
+regions <- c('West', 'SouthCentral', 'Northeast', 'Southeast', 'GreatLakes', 'Midsouth', 'Plains', 'TotalUS', 'California')
+
+avocado_cities <- subset(avocado, (Date ==  as.Date("08/16/15", "%m/%d/%y")) & !(region %in% regions), names(avocado))
+
+drops <- c("Date", "year")
+avocado_cities <- avocado_cities[,!(names(avocado_cities) %in% drops)]
+
+east = c("BaltimoreWashington","Boston","BuffaloRochester","Columbus","CincinnatiDayton","Detroit","GrandRapids","HarrisburgScranton","HartfordSpringfield","NewYork","NorthernNewEngland","Philadelphia", "Pittsburgh","Syracuse","Chicago")
+
+west = c("Albany","Denver","LasVegas","LosAngeles","Portland","Sacramento","SanDiego","SanFrancisco","Seattle","Spokane","Boise","PhoenixTucson","WestTexNewMexico","StLouis","Indianapolis")
+
+south = c("Atlanta","Charlotte","DallasFtWorth","Houston","Jacksonville","Louisville","MiamiFtLauderdale","Nashville","NewOrleansMobile","Orlando","RichmondNorfolk","Roanoke","SouthCarolina","Tampa","RaleighGreensboro")
+
+avocado_cities$region <- as.character(avocado_cities$region)
+
+for (val in c(1:92)) {
+  if (avocado_cities[val,"region"] %in% east){
+    avocado_cities[val,"region"] <- 'east'
+  }
+  if (avocado_cities[val,"region"] %in% west){
+    avocado_cities[val,"region"] <- 'west'
+  }
+  if (avocado_cities[val,"region"] %in% south){
+    avocado_cities[val,"region"] <- 'south'
+  }
+}
+
+avocado_cities$region <- factor(avocado_cities$region)
+
+knitr::kable(avocado_cities[1:5,1:5])
+knitr::kable(avocado_cities[1:5,6:10])
+```
+
+### Data Analysis
+
+We begin with performing some exploratory analysis on the data. First, a histogram of the response variable shows that it is right skewed. After trying out different transformations, taking the log of the response variable resulted in a more normal distribution, but raising 'TotalVolume' to the 0.1 power resulted in the best approximation. The Normal Q-Q plot of this transformation is also shown below. 
+
+```{r echo=FALSE}
+par(mfrow=c(1,2))
+hist(avocado_cities$TotalVolume, main="Histogram of TotalVolume")
+qqnorm(avocado_cities$TotalVolume)
+qqline(avocado_cities$TotalVolume)
+```
+
+```{r echo=FALSE}
+par(mfrow=c(1,2))
+hist((avocado_cities$TotalVolume)^0.1, main="Histogram of TotalVolume^0.1")
+qqnorm((avocado_cities$TotalVolume)^0.1)
+qqline((avocado_cities$TotalVolume)^0.1)
+```
+
+Next, to see if there are any relationships between the quantitative predictors, a pairs plot and correlation matrix are created. 
+
+```{r echo=FALSE}
+par(mfrow=c(1,1))
+pairs(formula = ~ I(TotalVolume^0.1) + AveragePrice + `4046` + `4225` + `4770` + Small.Bags + Large.Bags, data= avocado_cities )
+```
+
+```{r echo=FALSE}
+x <- data.frame("TotalVolume" = avocado_cities$TotalVolume^0.1, "AveragePrice"= avocado_cities$AveragePrice,"4046" = avocado_cities$`4046`, "4225" = avocado_cities$`4225`, "4770"= avocado_cities$`4770`, "Small.Bags"= avocado_cities$Small.Bags, "Large.Bags" =  avocado_cities$Large.Bags)
+knitr::kable(cor(x[1:7]))
+
+```
+
+From the pairs plot, the predictors 'Small.Bags' and 'Large.Bags' seem to be very collinear. None of the other predictors stand out, but we do see that 'AveragePrice' seems to have a strong correlation with the response 'TotalVolume'^(0.1). Looking at the covariance matrix,  'Small.Bags' and 'Large.Bags' have a correlation of nearly -1. Both of these predictors will not be able to be included in the model.
+
+To see if there is any multicollinearity in the data, the variance inflation factors are computed. The results are shown below. 
+
+```{r echo=FALSE}
+lm.full <- lm(I(TotalVolume^0.1)~. -Total.Bags, data=avocado_cities)
+knitr::kable(car::vif(lm.full))
+```
+
+This verifies that 'Small.Bags' and 'Large.Bags' are likely to cause problems if included together. The rest of the predictors have VIFs less than 5, so they are assumed to not have any multicollinearity. 
+
+### Model Selection 
+
+To begin to fit the model, the model is first fit to an intercept only linear model. For these models, the response is modeled as TotalVolume^0.1. Using the add1 function, we then can see which predictor has the lowest AIC, which is the predictor that we will add to our model next.
+
+```{r echo=FALSE}
+avocado_cities$TotalVolume <- avocado_cities$TotalVolume ^ 0.1
+lm.fit <- lm(TotalVolume~1, data=avocado_cities)
+
+lm.full <- lm(TotalVolume ~. -Total.Bags, data=avocado_cities)
+
+knitr::kable(add1(lm.fit,scope=lm.full))
+
+```
+
+The predictor 'type' is added to the model since it minimizes the AIC the most. This makes sense since the average volume output for conventional avocados versus organic avocados differs so much. The summary of the fitted model is then shown.
+
+
+```{r echo=FALSE}
+plot(avocado_cities$type, avocado_cities$TotalVolume, main="Boxplot of Total Volume by Type of Avocado")
+
+lm.fit <- update(lm.fit, ~. +type)
+summary(lm.fit)
+```
+
+The residual standard error is 0.2918 and the adjusted R-squared is 0.801. The p-value is significant, which indicates  a rejection of the null hypothesis that there is no relationship between 'TotalVolume' response and its predictors. 
+
+```{r include=FALSE}
+add1(lm.fit,scope=lm.full)
+```
+```{r include=FALSE}
+lm.fit <- update(lm.fit, ~. +`4046`)
+summary(lm.fit)
+
+```
+
+```{r include=FALSE}
+add1(lm.fit,scope=lm.full)
+```
+
+Using the add1 function after each model fit, the next predictors added are `4046` and `4225`, in that order.
+
+```{r echo=FALSE}
+lm.fit <- update(lm.fit, ~. +`4225`)
+summary(lm.fit)
+
+```
+
+I considered that there may be some interaction between `4046` and `4225`, which are PLU codes for small/medium and large avocados, respectively. However, adding the iteraction term to the model did not change the multiple R-squared value and caused the adjusted R-squared value to decrease by 0.0018, so it is left out.
+
+```{r include=FALSE}
+lm.fit1 <- update(lm.fit, ~. + `4046`:`4225`)
+summary(lm.fit1)
+
+```
+
+```{r include=FALSE}
+add1(lm.fit,scope=lm.full)
+```
+
+Using the add1 function to add one predictor at a time resulted in the predictor 'AveragePrice' being added to the model. After that, "none" was the best predictor to add to the model. So then the other predictors did not seem to significantly better the model's fit. 
+
+```{r include=FALSE}
+lm.fit <- update(lm.fit, ~. + AveragePrice)
+add1(lm.fit,scope=lm.full)
+```
+
+The remaining predictors were '4770', 'Small.Bags', 'Large.Bags', and 'region'. Since the other two PLU codes are used, it makes sense that adding the last PLU code would not significantly better the model's fit. Also, adding 'Small.Bags' or 'Large.Bags' wouldn't add much to the model. Since the PLU codes `4046` and `4225` are PLU codes for small/medium avocados and large avocado, the columns 'Small.Bags' and 'Large.Bags' become rather redundant. It is interesting to note that region does not play a significant role in determining the total volume of avocados sold. However, binning the cities/states into three categories may have evened out any variability between the individual cities/states. When trying to add it to the model, the multiple R-squared went up somewhat, but the adjusted R-squared decreased by  0.0014.
+
+Now let's look at the final model.
+
+```{r echo=FALSE}
+summary(lm.fit)
+```
+
+Looking at the final model, we see that the adjusted R-squared is 0.8489 and the residual standard error is 0.2542.
+
+```{r echo=FALSE}
+par(mfrow=c(1,2))
+plot(lm.fit)
+```
+
+The large blank chunk in the middle of these graphs are due to the vast differences in organic vs. conventional avocado volumes. 
+
+Looking at the Residuals vs Fitted plot, the residuals seem to follow a linear pattern. The residuals seem equally spaced around the horizontal red line with no discernible pattern. There are a few higher residuals, but they do not seem too worrisome. Later plots may say otherwise. 
+
+Next, looking at the Normal Q-Q plot, the residuals seem to follow the line well, which would indicate that the residuals follow a normal distribution. Observations 1476 and 1164 do seem to be somewhat out of line as opposed to the rest of the points. 
+
+Looking at the Scale-Location plot, the residuals seem to be equally spaced in a horizontal line, which would suggest equal variance.
+
+Finally, looking at the Residuals vs Leverage plot, although observation 11330 is farther out than the rest of the points, it  is still within the Cook's distance line, which suggests that it is not influential to the regression. 
+
+```{r include=FALSE}
+add1(lm.fit,scope=lm.full)
+```
+
+```{r include=FALSE}
+summary(update(lm.fit, ~. +`4770`))
+summary(update(lm.fit, ~. +Large.Bags))
+summary(update(lm.fit, ~. +region))
+summary(update(lm.fit, ~. +type:AveragePrice))
+```
+
+### Conclusion 
+
+From our fitted model, we can see that we can model the total volume of avocados per unit for a week in avocado season using type of avocado (conventional or organic), the proportion of avocados bought with PLU code 4046 and PLU code 4225, and the average price of the avocadoes. Not surprisingly, as price increases the total volume of avocados sold decreases, as well as the total volume of avocados sold is lower for organic avocados versus conventional. As the proportion of avocados sold with PLU codes for small/medium avocados and large avocados  increases, so does the total volume, which is not surprising. However, extra large avocados seem to not affect the model much, which is probably due to the fact that people are not buying as many extra large avocados. Another predictor, region, was not included in the final model. With an adjusted R-squared value of 0.8489 and examining the model plots for any red flags, the model seems to do a good job fitting the data. For avocado farmers, focusing on smaller/medium and large avocados, and of course finding ways to keep prices down, may be the way to go. 
+
+Moving forward, to make the most use out of this dataset would be to use all of the observations to make a model of total volume of avocados sold at a point in time. However, doing so would mean that one would have to take into account any correlations due to time and seasonality that exist in the data. As a way to model one week's number of avocodos sold, the model fitted in this report can be useful. To predict a week's avocodo sales would need to take into account other factors regarding this data. 

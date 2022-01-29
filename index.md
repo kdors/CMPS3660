@@ -4,6 +4,26 @@ layout: default
 
 # Projects
 
+## Topic Modeling Exploration Streamlit App
+I created a streamlit app to help explore different methods involved in topic modeling in natural language processing as I learn about different techniques. I hope to continue updating this app as I learn more. 
+
+[\[View App\]](https://share.streamlit.io/kdors/topic-modeling-exploration/main/app.py)
+
+## Classification of Good and Bad Customers for a Bank
+Is it possible to create a classification model that will predict whether someone will be a "good" or "bad" customer? I try to do so in this analysis and weigh the choices between high sensitivity and low specificity and vice versa. 
+
+[\[View Analysis\]](https://github.com/kdors/Data-Analysis-Python/blob/main/credit_analysis.ipynb)
+
+## Classifying Movies and Tv Shows Based on their Descriptions
+Can we determine if we are reading a description for a movie or a TV show? I attempt to find out as I use natural language processing techniques to utilize text data in a classification model. 
+
+[\[View Analysis\]](https://github.com/kdors/Data-Analysis-Python/blob/main/netflix_descriptions.ipynb)
+
+## Short-Term Rental Applications in New Orleans Dash App
+I wanted to try out using Dash so I created a small app to visualize data about short-term rental applications in New Orleans. I want to continue working on it as I play around with Plotly and app callbacks.
+
+[\[View Project\]](https://github.com/kdors/short-term-rentals-dash-app)
+
 ## rFishNet2 - An R Package
 
 For my senior capstone project, I helped create an R package designed to easily summarize and create visualizations using the data from the fish collections website FishNet2.
@@ -14,16 +34,5 @@ For my senior capstone project, I helped create an R package designed to easily 
 
 A write-up of my analysis of the relationship between the number of suspensions for an NFL team versus the team's winning prediction.
 
-[\[Write-up\]](./nfl-suspensions.html) [\[View Code\]](https://github.com/kdors/kdors.github.io/blob/master/nfl-suspensions-code.ipynb)
+[\[View Analysis\]](./nfl-suspensions.html) [\[View Code\]](https://github.com/kdors/kdors.github.io/blob/master/nfl-suspensions-code.ipynb)
 
-## Avocado Prices
-
-A write-up of my analysis of avocado prices to create a linear model that would determine the price of an avocado from its size, the country that produced it, and other characteristics.
-
-[\[Write-up\]](./avocado-prices.html) [\[View .Rmd\]](https://github.com/kdors/kdors.github.io/blob/master/avocado-prices.Rmd)
-
-## Curve Fitting With MATLAB
-
-For an assignment for a scientific computing course, interpolation and curve fitting techniques were used to minimize training and testing error for given data sets.
-
-[\[Write-up\]](./scientificcomputing_curvefitting.pdf)

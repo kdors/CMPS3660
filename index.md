@@ -6,7 +6,7 @@ layout: default
 
 ## Topic Modeling Exploration
 
-I created a streamlit app to help explore different methods involved in topic modeling in natural language processing as I learn about different techniques. I hope to continue updating this app as I learn more. 
+I created a streamlit app to help explore different methods involved in topic modeling in natural language processing as I learn about different techniques. I hope to continue updating this app as I learn more.
 
 [\[View App\]](https://share.streamlit.io/kdors/topic-modeling-exploration/main/app.py)
 
@@ -27,13 +27,13 @@ For my senior capstone project, I helped create an R package designed to easily 
 
 ## Classification of Good and Bad Customers for a Bank
 
-Is it possible to create a classification model that will predict whether someone will be a "good" or "bad" customer? I try to do so in this analysis and weigh the choices between high sensitivity and low specificity and vice versa. 
+Is it possible to create a classification model that will predict whether someone will be a "good" or "bad" customer? I try to do so in this analysis and weigh the choices between high sensitivity and low specificity and vice versa.
 
 [\[View Analysis\]](https://github.com/kdors/Data-Analysis-Python/blob/main/credit_analysis.ipynb)
 
 ## Classifying Movies and TV Shows Based on their Descriptions
 
-Can we determine if we are reading a description for a movie or a TV show? I attempt to find out as I use natural language processing techniques to utilize text data in a classification model. 
+Can we determine if we are reading a description for a movie or a TV show? I attempt to find out as I use natural language processing techniques to utilize text data in a classification model.
 
 [\[View Analysis\]](https://github.com/kdors/Data-Analysis-Python/blob/main/netflix_descriptions.ipynb)
 
@@ -41,4 +41,4 @@ Can we determine if we are reading a description for a movie or a TV show? I att
 
 A write-up of my analysis of the relationship between the number of suspensions for an NFL team versus the team's winning prediction.
 
-[\[View Analysis\]](./nfl-suspensions.html)
+[\[View Analysis\]](https://github.com/kdors/kdors.github.io/blob/master/nfl-suspensions-code.ipynb)
